@@ -4,22 +4,30 @@ const {ApiResponse} = require("../utils/ApiResponse.js")
 const {ApiError} = require("../utils/ApiError.js")
 const {uploadOnCloudinary} = require("../utils/cloudinary.js")
 const { sequelize } = require("../db/index.js")
+const fs = require("fs")
 
 const addVideo = async(req,res)=>{
+    console.log("Register")
     const videoFile = req.file?.path;
+    const {title,description} = req.body
+
+    console.log({videoFile,title,description})
+    if(!title || !description) throw new ApiError(400,"All fields are required")
+
     const t = await sequelize.transaction()
     try {
 
         if(!videoFile) throw new ApiError(400,"Please upload video")
 
         const uploadCloudinary = await uploadOnCloudinary(videoFile)
-
+        console.log(uploadCloudinary,"uploadCloudinary")
         if (!uploadCloudinary) {
             throw new ApiError(400, "Image upload failed");
         }
 
         const addToDb = await video.create({videoUrl:uploadCloudinary},{transaction:t})
         await t.commit();
+        
         return res
         .json(new ApiResponse(200,"Video uploaded successfully"))
     } catch (error) {
@@ -29,9 +37,10 @@ const addVideo = async(req,res)=>{
 }
 const editVideo = async(req,res)=>{
 
-    const {id} = req.body
+    const {id,title,description} = req.body
     const videoFile = req.file?.path;
     const t = await sequelize.transaction();
+
     try {
 
         if(!videoFile) throw new ApiError(400,"Please upload video")
@@ -47,6 +56,8 @@ const editVideo = async(req,res)=>{
         }
 
         findVideo.videoUrl = uploadCloudinary
+        findVideo.title = title
+        findVideo.description = description
         await findVideo.save({transaction:t})
         await t.commit();
         return res
@@ -110,7 +121,7 @@ const restoreVideo = async(req,res)=>{
 }
 const getAllVideo = async(req,res)=>{
     const videos = await video.findAll();
-
+    
     if(!videos) throw new ApiError(400,"No one video found")
     return res
     .status(200)

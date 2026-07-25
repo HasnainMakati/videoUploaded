@@ -23,7 +23,15 @@ module.exports = (sequelize, DataTypes) => {
     videoUrl: {
       type:DataTypes.STRING,
       allowNull:false
-    }
+    },
+    title:{
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    description:{
+      type:DataTypes.STRING,
+      allowNull:false
+    },
   }, {
     sequelize,
     modelName: 'video',

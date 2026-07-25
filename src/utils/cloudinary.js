@@ -12,7 +12,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath) return null;
         const response = await cloudinary.uploader.upload(localFilePath, { resource_type: "video" })
-
+        console.log(response,"response")
         fs.unlinkSync(localFilePath)
         return response.url
     } catch (error) {

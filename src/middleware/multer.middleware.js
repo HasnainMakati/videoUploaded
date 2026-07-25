@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
 })
 
 const videoFilter = (req, file, cb) => {
+    console.log(file,"file")
     if (file.mimetype.startsWith('video/')) {
         cb(null, true);
     } else {
