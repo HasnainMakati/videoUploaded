@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "process.env.DB_USER",
-    "password": "process.env.DB_PASS",
-    "database": "process.env.DB_NAME",
+    "username": "root",
+    "password": "Appsile@099",
+    "database": "video_manager",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -14,10 +14,7 @@
     "dialect": "mysql"
   },
   "production": {
-    "username":"process.env.DB_USER_PRO",
-    "password":"process.env.DB_PASS_PRO",
-    "database":"process.env.DB_NAME_PRO",
-    "host": "process.env.DB_HOST_PRO",
+     "use_env_variable": "DATABASE_URL",
     "dialect": "mysql"
   }
 }
