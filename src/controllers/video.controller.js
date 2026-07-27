@@ -11,7 +11,7 @@ const addVideo = async(req,res)=>{
     const videoFile = req.file?.path;
     const {title,description} = req.body
 
-    console.log({videoFile,title,description})
+    console.log("ADD VIDEO",{videoFile,title,description})
     if(!title || !description) throw new ApiError(400,"All fields are required")
 
     const t = await sequelize.transaction()
@@ -20,12 +20,12 @@ const addVideo = async(req,res)=>{
         if(!videoFile) throw new ApiError(400,"Please upload video")
 
         const uploadCloudinary = await uploadOnCloudinary(videoFile)
-        console.log(uploadCloudinary,"uploadCloudinary")
+
         if (!uploadCloudinary) {
             throw new ApiError(400, "Image upload failed");
-        }
+        }       
 
-        const addToDb = await video.create({videoUrl:uploadCloudinary},{transaction:t})
+        const addToDb = await video.create({videoUrl:uploadCloudinary,title,description},{transaction:t})
         await t.commit();
         
         return res
@@ -45,7 +45,7 @@ const editVideo = async(req,res)=>{
 
         if(!videoFile) throw new ApiError(400,"Please upload video")
 
-        const findVideo = await video.findOne({where:{id},attributes:['id','videoUrl'],transaction:t})
+        const findVideo = await video.findOne({where:{id},attributes:['id','videoUrl','description','title'],transaction:t})
 
         if(!findVideo || findVideo.length === 0) throw new ApiError(400,"There are no video in our list")
 
