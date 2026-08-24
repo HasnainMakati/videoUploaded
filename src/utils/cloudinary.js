@@ -8,11 +8,12 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
 const uploadOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath) return null;
         const response = await cloudinary.uploader.upload(localFilePath, { resource_type: "video" })
-
+        console.log(response.secure_url,"RESPONSE")
         fs.unlinkSync(localFilePath)
         return response.url
     } catch (error) {
