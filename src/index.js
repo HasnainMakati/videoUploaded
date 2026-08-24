@@ -1,9 +1,10 @@
-
 require("dotenv").config();
-const { app } = require("./app.js")
-const { sequelize } = require("./db/index.js")
 
-app.listen(process.env.PORT || 4000, () => {
-    console.log(`Server running port on ${process.env.PORT}`)
-})
+const { app } = require("./app.js");
+const { sequelize } = require("./db/index.js");
 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+});
