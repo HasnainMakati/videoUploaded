@@ -1,27 +1,34 @@
-import jwt from "jsonwebtoken";
-import { ApiError } from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { User } from "../model/users.model.js";
+// // import jwt from "jsonwebtoken";
+// // import { ApiError } from "../utils/ApiError.js";
+// // import { asyncHandler } from "../utils/asyncHandler.js";
+// // import { User } from "../model/users.model.js";
 
-const verifyUserWithToken = asyncHandler(async (req, _, next) => {
-  try {
-    const token =
-      req.cookies?.accessToken ||
-      req.header("Authorization")?.replace("Bearer ", "");
+// const { ApiError } = require("../utils/ApiError.js")
+// const { ApiResponse } = require("../utils/ApiResponse.js")
+// const { asyncHandler } = require("../utils/asyncHandler.js")
+// // const jwt = require("jsonwebtoken")
 
-    if (!token) {
-      throw new ApiError(401, "Unauthorized request");
-    }
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    const user = await User.findByPk(decodedToken._id, { raw: true });
+// const verifyUserWithToken = asyncHandler(async (req, _, next) => {
+//     console.log(`${req.method} ${req.route.path}`,"METHODS")
+//   try {
+//     const token =
+//       req.cookies?.accessToken ||
+//       req.header("Authorization")?.replace("Bearer ", "");
 
-    req.user = user;
-    console.log("A", user.user_id);
+//     if (!token) {
+//       throw new ApiError(401, "Unauthorized request");
+//     }
+//     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+//     const user = await User.findByPk(decodedToken._id, { raw: true });
 
-    next();
-  } catch (error) {
-    throw new ApiError(401, "Token verification failed", [error.message]);
-  }
-});
+//     req.user = user;
+//     console.log("A", user.user_id);
 
-export { verifyUserWithToken };
+//     next();
+//   } catch (error) {
+//     throw new ApiError(401, "Token verification failed", [error.message]);
+//   }
+// });
+
+// // export { verifyUserWithToken };
+// module.exports = {verifyUserWithToken}

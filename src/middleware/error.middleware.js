@@ -1,9 +1,9 @@
 const globalErrorHandler = async (err, req, res, next) => {
 
-    // Sequelize Error
-    if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
-
-        const shortError = err.errors.map(e => e.message);
+    if (err.name === 'ValidationError' || err.name === 'MongoServerError' && err.code === 11000) {
+        const shortError = err.name === 'ValidationError'
+            ? Object.values(err.errors).map(e => e.message)
+            : ['A record with this value already exists'];
 
         return res.status(400).json({
             success: false,

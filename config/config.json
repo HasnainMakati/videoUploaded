@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "",
+    "password": "Appsile@099",
     "database": "video_manager",
     "host": "127.0.0.1",
     "dialect": "mysql"

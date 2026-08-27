@@ -1,5 +1,5 @@
 const { ApiError } = require("../utils/ApiError")
-const admin = require("../../models/admin.js")
+const Admin = require("../../models/admin.js")
 const { ApiResponse } = require("../utils/ApiResponse")
 
 
@@ -9,7 +9,7 @@ const login = async(req,res)=>{
 
         if(!email || !password) throw new ApiError(400,"All fields are required")
 
-        const admin = await admin.findOne({where:{email,password},attributes:['id','email']})
+        const admin = await Admin.findOne({email, password}).select("_id email")
 
         if(!admin) throw new ApiError(400,"There no admin founds")
 

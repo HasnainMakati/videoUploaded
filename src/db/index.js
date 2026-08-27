@@ -1,11 +1,12 @@
 require("dotenv").config();
-const mysql = require("mysql2")
-const Sequelize = require("sequelize")
+const mongoose = require("mongoose")
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: false
-})
+const connectDB = async () => {
+    const mongoUri = process.env.MONGODB_URI
+    if (!mongoUri) throw new Error("MONGODB_URI is not configured")
 
-module.exports = {sequelize}
+    await mongoose.connect(mongoUri)
+    console.log(`MongoDB connected: ${mongoose.connection.name}`)
+}
+
+module.exports = {connectDB}
