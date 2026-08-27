@@ -22,4 +22,4 @@ app.use("/api/v1/videos", videoRoutes);
 
 app.use(globalErrorHandler);
 
-module.exports = {app}
+module.exports = app
