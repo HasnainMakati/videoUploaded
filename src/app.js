@@ -17,6 +17,10 @@ app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+    res.status(200).json({success: true, message: "Video API is running"})
+})
+
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/videos", videoRoutes);
 
