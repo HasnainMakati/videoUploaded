@@ -7,8 +7,18 @@ const videoRoutes = require("./routes/video.routes.js");
 const adminRoutes = require("./routes/admin.routes.js");
 
 const app = express();
+const allowedOrigins = (process.env.CORS_ORIGIN_PRO || process.env.CORS_ORIGIN_DEV || "")
+    .split(",")
+    .map((origin) => origin.trim().replace(/\/$/, ""))
+    .filter(Boolean)
+
 app.use(cors({
-    origin:process.env.CORS_ORIGIN_PRO,
+    origin: (requestOrigin, callback) => {
+        if (!requestOrigin || allowedOrigins.includes(requestOrigin)) {
+            return callback(null, true)
+        }
+        return callback(new Error("Origin is not allowed by CORS"))
+    },
     credentials:true
 }))
 
